@@ -1,0 +1,117 @@
+[
+    {
+        "id": "62733c4eaec352ec",
+        "type": "tab",
+        "label": "1EMA - MicroPython",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "92efede0f9fecd07",
+        "type": "mqtt in",
+        "z": "62733c4eaec352ec",
+        "name": "Telemetria ESP32",
+        "topic": "fiap/iot/grupo01/temperatura",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 240,
+        "wires": [
+            [
+                "b11cd5a91b8df911"
+            ]
+        ]
+    },
+    {
+        "id": "b11cd5a91b8df911",
+        "type": "json",
+        "z": "62733c4eaec352ec",
+        "name": "JSON → objeto",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "5ee616d471281165",
+                "86ae4d2f626baa48"
+            ]
+        ]
+    },
+    {
+        "id": "5ee616d471281165",
+        "type": "debug",
+        "z": "62733c4eaec352ec",
+        "name": "Telemetria completa",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "86ae4d2f626baa48",
+        "type": "function",
+        "z": "62733c4eaec352ec",
+        "name": "Formatar leitura",
+        "func": "const d = msg.payload;\n\nmsg.payload = `Temperatura: ${d.temperatura} °C`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 400,
+        "wires": [
+            [
+                "2a7611addff9ff4e"
+            ]
+        ]
+    },
+    {
+        "id": "2a7611addff9ff4e",
+        "type": "debug",
+        "z": "62733c4eaec352ec",
+        "name": "Leitura formatada",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "HiveMQ",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthQos": "0",
+        "willQos": "0"
+    }
+]
